@@ -54,7 +54,6 @@ function eventBlock(event: Event, inviteUrl: string) {
   return `
     ${imageHtml}
     <div style="padding:28px 32px;">
-      <p style="margin:0 0 4px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#4A90D9;font-family:sans-serif;">${process.env.EMAIL_FROM_NAME || 'Invitation'}</p>
       <h1 style="margin:0 0 4px;font-size:22px;font-weight:normal;color:#1e293b;">${event.title}</h1>
       ${event.subtitle ? `<p style="margin:0 0 16px;font-style:italic;color:#64748b;font-size:15px;">${event.subtitle}</p>` : ''}
       <div style="margin:16px 0;padding:16px;background:#F0F8FF;border-radius:10px;font-family:sans-serif;font-size:14px;color:#334155;">
@@ -63,7 +62,7 @@ function eventBlock(event: Event, inviteUrl: string) {
         ${event.location ? `<div style="margin-top:4px;"><strong>Where:</strong> ${event.location}</div>` : ''}
         ${event.address ? `<div style="margin-top:2px;color:#64748b;">${event.address}</div>` : ''}
       </div>
-      ${event.description ? `<p style="font-size:14px;color:#475569;line-height:1.6;">${event.description}</p>` : ''}
+      ${event.description ? `<p style="font-size:14px;color:#475569;line-height:1.6;font-family:sans-serif;">${event.description}</p>` : ''}
     </div>
     <div style="padding:0 32px 32px;text-align:center;">
       <a href="${inviteUrl}" style="display:inline-block;background:#4A90D9;color:#fff;text-decoration:none;padding:12px 32px;border-radius:8px;font-family:sans-serif;font-size:14px;font-weight:600;">RSVP Now</a>
