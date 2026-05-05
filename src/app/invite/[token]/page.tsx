@@ -103,6 +103,12 @@ export default function InvitePage() {
           )}
         </div>
 
+        <div style={{ padding: '8px 28px 0', textAlign: 'center' }}>
+          <a href={`/guests/${event.id}`} style={{ fontSize: 12, color: '#4A90D9', textDecoration: 'none' }}>
+            View guest list
+          </a>
+        </div>
+
         <div style={{ padding: '20px 28px 28px' }}>
           {step === 'invite' && (
             <>

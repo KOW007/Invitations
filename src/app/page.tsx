@@ -515,6 +515,14 @@ export default function AdminPage() {
                 <Download size={13} /> Export
               </button>
 
+              {/* guest list */}
+              {selectedId && (
+                <a href={`/guests/${selectedId}`} target="_blank" rel="noreferrer"
+                  style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 14px', border: `1px solid ${BORDER}`, borderRadius: 8, background: '#fff', color: '#475569', fontSize: 13, cursor: 'pointer', textDecoration: 'none' }}>
+                  <UserPlus size={13} /> Guest List
+                </a>
+              )}
+
               <div style={{ flex: 1 }} />
 
               {/* send invitations */}
