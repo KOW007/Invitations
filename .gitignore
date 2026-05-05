@@ -13,6 +13,9 @@ out/
 data/
 public/uploads/
 
+# local image folders
+pre-prom/
+
 # OS
 .DS_Store
 Thumbs.db

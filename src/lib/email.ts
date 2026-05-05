@@ -45,8 +45,11 @@ function baseTemplate(content: string) {
 }
 
 function eventBlock(event: Event, inviteUrl: string) {
-  const imageHtml = event.image_path
-    ? `<img src="${BASE_URL()}${event.image_path}" style="width:100%;display:block;max-height:280px;object-fit:cover;" alt="${event.title}">`
+  const imgSrc = event.image_path?.startsWith('http')
+    ? event.image_path
+    : event.image_path ? `${BASE_URL()}${event.image_path}` : null
+  const imageHtml = imgSrc
+    ? `<img src="${imgSrc}" style="width:100%;display:block;max-height:280px;object-fit:cover;" alt="${event.title}">`
     : ''
   return `
     ${imageHtml}
