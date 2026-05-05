@@ -65,7 +65,7 @@ function eventBlock(event: Event, inviteUrl: string) {
       ${event.description ? `<p style="font-size:14px;color:#475569;line-height:1.6;font-family:sans-serif;margin:0;">${event.description}</p>` : ''}
     </div>
     <div style="padding:0 48px 36px;text-align:center;">
-      <a href="${inviteUrl}" style="display:inline-block;background:#4A90D9;color:#fff;text-decoration:none;padding:12px 32px;border-radius:8px;font-family:sans-serif;font-size:14px;font-weight:600;">RSVP Now</a>
+      <a href="${inviteUrl}" style="display:inline-block;background:#4A90D9;color:#ffffff;text-decoration:none;padding:12px 32px;border-radius:8px;font-family:sans-serif;font-size:14px;font-weight:600;"><span style="color:#ffffff;">RSVP Now</span></a>
       <p style="margin:12px 0 0;font-size:12px;color:#94a3b8;font-family:sans-serif;">Or copy this link: ${inviteUrl}</p>
     </div>`
 }
