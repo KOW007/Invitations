@@ -13,29 +13,43 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'event_id, email, and type required' }, { status: 400 })
 
   const db = createServiceClient()
+
   const { data: event } = await db.from('events').select('*').eq('id', event_id).single()
   if (!event) return NextResponse.json({ error: 'event not found' }, { status: 404 })
   if (event.user_id !== user.id) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
-  const testInvitee: Invitee = {
-    id: 'test',
-    event_id,
-    first_name: 'Test',
-    last_name: 'Guest',
-    email,
-    token: crypto.randomUUID(),
-    invited_at: new Date().toISOString(),
-    response: type === 'day-of' ? 'yes' : undefined,
-    created_at: new Date().toISOString(),
-  }
+  // Insert a temporary invitee so the RSVP link in the email actually works
+  const { data: tempInvitee, error: insertErr } = await db
+    .from('invitees')
+    .insert({
+      event_id,
+      first_name: 'Test',
+      last_name: 'Guest',
+      email,
+      invited_at: new Date().toISOString(),
+      response: type === 'day-of' ? 'yes' : null,
+    })
+    .select()
+    .single()
+
+  if (insertErr || !tempInvitee)
+    return NextResponse.json({ error: insertErr?.message ?? 'Could not create test record' }, { status: 500 })
 
   try {
-    if (type === 'invitation')   await sendInvitation(event as Event, testInvitee)
-    else if (type === 'reminder') await sendReminder(event as Event, testInvitee)
-    else if (type === 'day-of')   await sendDayOfReminder(event as Event, testInvitee)
-    else return NextResponse.json({ error: 'type must be invitation, reminder, or day-of' }, { status: 400 })
+    if (type === 'invitation')    await sendInvitation(event as Event, tempInvitee as Invitee)
+    else if (type === 'reminder') await sendReminder(event as Event, tempInvitee as Invitee)
+    else if (type === 'day-of')   await sendDayOfReminder(event as Event, tempInvitee as Invitee)
+    else {
+      await db.from('invitees').delete().eq('id', tempInvitee.id)
+      return NextResponse.json({ error: 'type must be invitation, reminder, or day-of' }, { status: 400 })
+    }
     return NextResponse.json({ ok: true })
   } catch (e: unknown) {
     return NextResponse.json({ error: e instanceof Error ? e.message : String(e) }, { status: 500 })
+  } finally {
+    // Clean up the temporary record after a delay so the link stays usable for a few minutes
+    setTimeout(() => {
+      db.from('invitees').delete().eq('id', tempInvitee.id).then(() => {})
+    }, 10 * 60 * 1000) // 10 minutes
   }
 }
