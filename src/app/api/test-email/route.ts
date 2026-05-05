@@ -18,7 +18,15 @@ export async function POST(req: NextRequest) {
   if (!event) return NextResponse.json({ error: 'event not found' }, { status: 404 })
   if (event.user_id !== user.id) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
-  // Insert a temporary invitee so the RSVP link in the email actually works
+  // Remove any leftover test records for this event before creating a fresh one
+  await db.from('invitees')
+    .delete()
+    .eq('event_id', event_id)
+    .eq('first_name', 'Test')
+    .eq('last_name', 'Guest')
+
+  // Insert a temporary invitee so the RSVP link works — no invited_at so it
+  // doesn't appear in the "Remind Non-Responders" count
   const { data: tempInvitee, error: insertErr } = await db
     .from('invitees')
     .insert({
@@ -26,7 +34,6 @@ export async function POST(req: NextRequest) {
       first_name: 'Test',
       last_name: 'Guest',
       email,
-      invited_at: new Date().toISOString(),
       response: type === 'day-of' ? 'yes' : null,
     })
     .select()
