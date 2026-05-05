@@ -62,7 +62,7 @@ function eventBlock(event: Event, inviteUrl: string) {
         ${event.location ? `<div style="margin-top:4px;"><strong>Where:</strong> ${event.location}</div>` : ''}
         ${event.address ? `<div style="margin-top:2px;color:#64748b;">${event.address}</div>` : ''}
       </div>
-      ${event.description ? `<p style="font-size:14px;color:#475569;line-height:1.6;font-family:sans-serif;margin:0;">${event.description}</p>` : ''}
+      ${event.description ? `<div style="font-size:14px;color:#475569;line-height:1.6;font-family:sans-serif;margin:0;">${event.description}</div>` : ''}
     </div>
     <div style="padding:0 48px 36px;text-align:center;">
       <a href="${inviteUrl}" style="display:inline-block;background:#4A90D9;color:#ffffff;text-decoration:none;padding:12px 32px;border-radius:8px;font-family:sans-serif;font-size:14px;font-weight:600;"><span style="color:#ffffff;">RSVP Now</span></a>

@@ -99,7 +99,7 @@ export default function InvitePage() {
           )}
 
           {event.description && (
-            <p style={{ fontSize: 14, color: '#475569', lineHeight: 1.7, marginBottom: 16 }}>{event.description}</p>
+            <div style={{ fontSize: 14, color: '#475569', lineHeight: 1.7, marginBottom: 16 }} dangerouslySetInnerHTML={{ __html: event.description }} />
           )}
         </div>
 

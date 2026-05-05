@@ -643,7 +643,7 @@ export default function AdminPage() {
                           { label: '', field: null },
                         ].map((col, i) => (
                           <th key={i} onClick={col.field ? () => toggleSort(col.field!) : undefined}
-                            style={{ padding: '10px 14px', textAlign: 'left', fontWeight: 600, color: '#64748b', fontSize: 11, textTransform: 'uppercase', letterSpacing: '.05em', cursor: col.field ? 'pointer' : 'default', whiteSpace: 'nowrap', userSelect: 'none' }}>
+                            style={{ padding: '10px 20px', textAlign: 'left', fontWeight: 600, color: '#64748b', fontSize: 11, textTransform: 'uppercase', letterSpacing: '.05em', cursor: col.field ? 'pointer' : 'default', whiteSpace: 'nowrap', userSelect: 'none' }}>
                             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
                               {col.label}{col.field && <SortIcon field={col.field} />}
                             </span>
@@ -654,21 +654,21 @@ export default function AdminPage() {
                     <tbody>
                       {filtered.map((inv, idx) => (
                         <tr key={inv.id} style={{ borderBottom: `1px solid ${BORDER}`, background: idx % 2 === 1 ? '#FAFCFF' : '#fff' }}>
-                          <td style={{ padding: '10px 14px', fontWeight: 600, color: '#1e293b', whiteSpace: 'nowrap' }}>
+                          <td style={{ padding: '10px 20px', fontWeight: 600, color: '#1e293b', whiteSpace: 'nowrap' }}>
                             {inv.first_name} {inv.last_name || ''}
                           </td>
-                          <td style={{ padding: '10px 14px', color: '#64748b', maxWidth: 180, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          <td style={{ padding: '10px 20px', color: '#64748b', maxWidth: 180, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                             {inv.email || '—'}
                           </td>
-                          <td style={{ padding: '10px 14px' }}><Badge resp={inv.response} /></td>
-                          <td style={{ padding: '10px 14px', color: '#94a3b8', whiteSpace: 'nowrap' }}>{fmtTs(inv.responded_at)}</td>
-                          <td style={{ padding: '10px 14px', color: '#94a3b8', whiteSpace: 'nowrap' }}>{fmtTs(inv.invited_at)}</td>
-                          <td style={{ padding: '10px 14px', color: '#64748b', maxWidth: 220 }}>
+                          <td style={{ padding: '10px 20px' }}><Badge resp={inv.response} /></td>
+                          <td style={{ padding: '10px 20px', color: '#94a3b8', whiteSpace: 'nowrap' }}>{fmtTs(inv.responded_at)}</td>
+                          <td style={{ padding: '10px 20px', color: '#94a3b8', whiteSpace: 'nowrap' }}>{fmtTs(inv.invited_at)}</td>
+                          <td style={{ padding: '10px 20px', color: '#64748b', maxWidth: 220 }}>
                             {inv.message && <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={inv.message}>{inv.message}</div>}
                             {inv.rsvp_answer_1 && <div style={{ fontSize: 11, color: '#94a3b8', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={inv.rsvp_answer_1}>Q1: {inv.rsvp_answer_1}</div>}
                             {inv.rsvp_answer_2 && <div style={{ fontSize: 11, color: '#94a3b8', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={inv.rsvp_answer_2}>Q2: {inv.rsvp_answer_2}</div>}
                           </td>
-                          <td style={{ padding: '10px 14px' }}>
+                          <td style={{ padding: '10px 20px' }}>
                             <div style={{ display: 'flex', gap: 6 }}>
                               <button onClick={() => copyLink(inv)} title="Copy invite link"
                                 style={{ padding: '5px', border: `1px solid ${BORDER}`, borderRadius: 6, background: '#fff', cursor: 'pointer', color: copiedId === inv.id ? '#16a34a' : '#64748b', display: 'flex', alignItems: 'center' }}>
@@ -684,7 +684,7 @@ export default function AdminPage() {
                       ))}
                     </tbody>
                   </table>
-                  <div style={{ padding: '10px 14px', fontSize: 12, color: '#94a3b8', borderTop: `1px solid ${BORDER}` }}>
+                  <div style={{ padding: '10px 20px', fontSize: 12, color: '#94a3b8', borderTop: `1px solid ${BORDER}` }}>
                     Showing {filtered.length} of {total} guests
                   </div>
                 </div>
