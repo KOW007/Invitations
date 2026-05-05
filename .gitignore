@@ -1,0 +1,22 @@
+# dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# env files — never commit these
+.env.local
+.env*.local
+
+# local data & uploads
+data/
+public/uploads/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# build output
+*.tsbuildinfo
+next-env.d.ts
