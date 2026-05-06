@@ -29,8 +29,9 @@ export async function POST(req: NextRequest) {
       await db.from('invitees').update({ invited_at: new Date().toISOString() }).eq('id', invitee.id)
       results.sent++
       await new Promise(r => setTimeout(r, 150))
-    } catch {
-      results.failed.push(`${invitee.first_name} ${invitee.last_name || ''}`.trim())
+    } catch (err) {
+      const reason = err instanceof Error ? err.message : 'unknown error'
+      results.failed.push(`${invitee.first_name} ${invitee.last_name || ''}`.trim() + ` (${reason})`)
     }
   }
 

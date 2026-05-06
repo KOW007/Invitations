@@ -73,7 +73,7 @@ function eventBlock(event: Event, inviteUrl: string) {
 export async function sendInvitation(event: Event, invitee: Invitee) {
   const url = `${BASE_URL()}/invite/${invitee.token}`
   const transport = createTransport()
-  await transport.sendMail({
+  const info = await transport.sendMail({
     from: FROM(),
     to: invitee.email!,
     subject: `You're Invited — ${event.title}`,
@@ -81,13 +81,14 @@ export async function sendInvitation(event: Event, invitee: Invitee) {
       ${eventBlock(event, url)}
     `),
   })
+  if (info.rejected.length > 0) throw new Error(`address rejected by server`)
 }
 
 export async function sendReminder(event: Event, invitee: Invitee) {
   const url = `${BASE_URL()}/invite/${invitee.token}`
   const transport = createTransport()
   const customMsg = event.reminder_message || `${invitee.first_name}, please let us know if you can make it!`
-  await transport.sendMail({
+  const info = await transport.sendMail({
     from: FROM(),
     to: invitee.email!,
     subject: `Reminder to RSVP — ${event.title}`,
@@ -98,13 +99,14 @@ export async function sendReminder(event: Event, invitee: Invitee) {
       </div>
     `),
   })
+  if (info.rejected.length > 0) throw new Error(`address rejected by server`)
 }
 
 export async function sendDayOfReminder(event: Event, invitee: Invitee) {
   const url = `${BASE_URL()}/invite/${invitee.token}`
   const transport = createTransport()
   const customMsg = event.day_of_message || `${invitee.first_name}, we're looking forward to seeing you!`
-  await transport.sendMail({
+  const info = await transport.sendMail({
     from: FROM(),
     to: invitee.email!,
     subject: `Reminder — ${event.title}`,
@@ -116,4 +118,5 @@ export async function sendDayOfReminder(event: Event, invitee: Invitee) {
       </div>
     `),
   })
+  if (info.rejected.length > 0) throw new Error(`address rejected by server`)
 }
