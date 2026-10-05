@@ -146,15 +146,25 @@ export default function InvitePage() {
                   {event.rsvp_question_1 && (
                     <div style={{ marginBottom: 14 }}>
                       <label style={{ display: 'block', fontSize: 12, textTransform: 'uppercase', letterSpacing: '.06em', color: '#64748b', marginBottom: 6 }}>{event.rsvp_question_1}</label>
-                      <input value={answer1} onChange={e => setAnswer1(e.target.value)}
-                        style={{ width: '100%', border: '1px solid #C5DCF0', borderRadius: 8, padding: '9px 12px', fontSize: 14, fontFamily: 'inherit', outline: 'none', color: '#334155' }} />
+                      <select value={answer1} onChange={e => setAnswer1(e.target.value)}
+                        style={{ width: '100%', border: '1px solid #C5DCF0', borderRadius: 8, padding: '9px 12px', fontSize: 14, fontFamily: 'inherit', outline: 'none', color: '#334155', background: '#fff' }}>
+                        <option value="">Select…</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                      </select>
                     </div>
                   )}
                   {event.rsvp_question_2 && (
                     <div style={{ marginBottom: 14 }}>
                       <label style={{ display: 'block', fontSize: 12, textTransform: 'uppercase', letterSpacing: '.06em', color: '#64748b', marginBottom: 6 }}>{event.rsvp_question_2}</label>
-                      <input value={answer2} onChange={e => setAnswer2(e.target.value)}
-                        style={{ width: '100%', border: '1px solid #C5DCF0', borderRadius: 8, padding: '9px 12px', fontSize: 14, fontFamily: 'inherit', outline: 'none', color: '#334155' }} />
+                      <select value={answer2} onChange={e => setAnswer2(e.target.value)}
+                        style={{ width: '100%', border: '1px solid #C5DCF0', borderRadius: 8, padding: '9px 12px', fontSize: 14, fontFamily: 'inherit', outline: 'none', color: '#334155', background: '#fff' }}>
+                        <option value="">Select…</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                      </select>
                     </div>
                   )}
                   <div style={{ marginBottom: 16 }}>
