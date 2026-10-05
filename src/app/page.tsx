@@ -22,7 +22,7 @@ function fmt(dateStr?: string) {
 }
 
 function fmtTs(ts?: string) {
-  if (!ts) return '—'
+  if (!ts) return '-'
   return new Date(ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })
 }
 
@@ -568,7 +568,7 @@ export default function AdminPage() {
                   <label style={labelCls}>Email Type</label>
                   <select value={testType} onChange={e => setTestType(e.target.value as typeof testType)} style={inputCls}>
                     <option value="invitation">Invitation</option>
-                    <option value="reminder">Reminder — no response</option>
+                    <option value="reminder">Reminder (no response)</option>
                     <option value="day-of">Day-of reminder</option>
                   </select>
                 </div>
@@ -666,7 +666,7 @@ export default function AdminPage() {
                             {inv.first_name} {inv.last_name || ''}
                           </td>
                           <td style={{ padding: '10px 20px', color: '#64748b', maxWidth: 180, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                            {inv.email || '—'}
+                            {inv.email || '-'}
                           </td>
                           <td style={{ padding: '10px 20px' }}><Badge resp={inv.response} /></td>
                           <td style={{ padding: '10px 20px', color: '#94a3b8', whiteSpace: 'nowrap' }}>{fmtTs(inv.responded_at)}</td>

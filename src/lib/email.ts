@@ -53,21 +53,31 @@ function eventBlock(event: Event, inviteUrl: string) {
     : ''
   return `
     ${imageHtml}
-    <div style="padding:32px 48px;">
-      <h1 style="margin:0 0 4px;font-size:22px;font-weight:normal;color:#1e293b;">${event.title}</h1>
-      ${event.subtitle ? `<p style="margin:0 0 16px;font-style:italic;color:#64748b;font-size:15px;">${event.subtitle}</p>` : ''}
-      <div style="margin:16px 0;padding:16px;background:#F0F8FF;border-radius:10px;font-family:sans-serif;font-size:14px;color:#334155;">
-        ${event.event_date ? `<div><strong>Date:</strong> ${formatDate(event.event_date)}</div>` : ''}
-        ${timeRange(event) ? `<div style="margin-top:4px;"><strong>Time:</strong> ${timeRange(event)}</div>` : ''}
-        ${event.location ? `<div style="margin-top:4px;"><strong>Where:</strong> ${event.location}</div>` : ''}
-        ${event.address ? `<div style="margin-top:2px;color:#64748b;">${event.address}</div>` : ''}
-      </div>
-      ${event.description ? `<div style="font-size:14px;color:#475569;line-height:1.6;font-family:sans-serif;margin:0;">${event.description}</div>` : ''}
-    </div>
-    <div style="padding:0 48px 36px;text-align:center;">
-      <a href="${inviteUrl}" style="display:inline-block;background:#4A90D9;color:#ffffff;text-decoration:none;padding:12px 32px;border-radius:8px;font-family:sans-serif;font-size:14px;font-weight:600;"><span style="color:#ffffff;">RSVP Now</span></a>
-      <p style="margin:12px 0 0;font-size:12px;color:#94a3b8;font-family:sans-serif;">Or copy this link: ${inviteUrl}</p>
-    </div>`
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr><td style="padding:36px 40px 8px;text-align:center;">
+        <h1 style="margin:0 0 6px;font-size:24px;font-weight:normal;color:#2E4A7D;letter-spacing:.02em;">${event.title}</h1>
+        ${event.subtitle ? `<p style="margin:0 0 8px;font-style:italic;color:#64748b;font-size:15px;">${event.subtitle}</p>` : ''}
+      </td></tr>
+      <tr><td style="padding:16px 40px;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr><td style="padding:18px 22px;background:#EEF3FB;border-left:4px solid #F2B632;border-radius:10px;font-family:sans-serif;font-size:14px;line-height:1.6;color:#2E4A7D;">
+            ${event.event_date ? `<div><strong>Date:</strong> ${formatDate(event.event_date)}</div>` : ''}
+            ${timeRange(event) ? `<div style="margin-top:4px;"><strong>Time:</strong> ${timeRange(event)}</div>` : ''}
+            ${event.location ? `<div style="margin-top:4px;"><strong>Where:</strong> ${event.location}</div>` : ''}
+            ${event.address ? `<div style="margin-top:2px;color:#64748b;">${event.address}</div>` : ''}
+          </td></tr>
+        </table>
+      </td></tr>
+      ${event.description ? `<tr><td style="padding:8px 40px 8px;font-size:15px;color:#475569;line-height:1.7;font-family:sans-serif;">${event.description}</td></tr>` : ''}
+      <tr><td style="padding:24px 40px 40px;text-align:center;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
+          <tr><td bgcolor="#4F7ECE" style="background:#4F7ECE;border-radius:999px;border:2px solid #F2B632;">
+            <a href="${inviteUrl}" style="display:inline-block;padding:14px 44px;color:#ffffff;text-decoration:none;font-family:sans-serif;font-size:15px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;"><span style="color:#ffffff;">RSVP Now</span></a>
+          </td></tr>
+        </table>
+        <p style="margin:16px 0 0;font-size:12px;color:#94a3b8;font-family:sans-serif;">Or copy this link:<br><a href="${inviteUrl}" style="color:#4F7ECE;word-break:break-all;">${inviteUrl}</a></p>
+      </td></tr>
+    </table>`
 }
 
 export async function sendInvitation(event: Event, invitee: Invitee) {
@@ -76,7 +86,7 @@ export async function sendInvitation(event: Event, invitee: Invitee) {
   const info = await transport.sendMail({
     from: FROM(),
     to: invitee.email!,
-    subject: `You're Invited — ${event.title}`,
+    subject: `You're Invited: ${event.title}`,
     html: baseTemplate(`
       ${eventBlock(event, url)}
     `),
@@ -91,10 +101,10 @@ export async function sendReminder(event: Event, invitee: Invitee) {
   const info = await transport.sendMail({
     from: FROM(),
     to: invitee.email!,
-    subject: `Reminder to RSVP — ${event.title}`,
+    subject: `Reminder to RSVP: ${event.title}`,
     html: baseTemplate(`
       ${eventBlock(event, url)}
-      <div style="padding:0 32px 24px;font-family:sans-serif;font-size:14px;color:#475569;text-align:center;">
+      <div style="padding:0 40px 28px;font-family:sans-serif;font-size:14px;color:#475569;text-align:center;">
         <p>${customMsg}</p>
       </div>
     `),
@@ -109,12 +119,12 @@ export async function sendDayOfReminder(event: Event, invitee: Invitee) {
   const info = await transport.sendMail({
     from: FROM(),
     to: invitee.email!,
-    subject: `Reminder — ${event.title}`,
+    subject: `Reminder: ${event.title}`,
     html: baseTemplate(`
       ${eventBlock(event, url)}
-      <div style="padding:0 32px 24px;font-family:sans-serif;font-size:14px;color:#475569;text-align:center;">
+      <div style="padding:0 40px 28px;font-family:sans-serif;font-size:14px;color:#475569;text-align:center;">
         <p>${customMsg}</p>
-        <p style="font-size:12px;color:#94a3b8;margin-top:8px;">Need to update your RSVP? <a href="${url}" style="color:#4A90D9;">Click here</a>.</p>
+        <p style="font-size:12px;color:#94a3b8;margin-top:8px;">Need to update your RSVP? <a href="${url}" style="color:#4F7ECE;">Click here</a>.</p>
       </div>
     `),
   })
