@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react'
 import {
   Plus, Upload, Download, Copy, Check, Pencil, X, Mail, Trash2,
-  UserPlus, Send, ChevronDown, ChevronUp, RefreshCw, Bell, Calendar, LogOut,
+  UserPlus, Send, ChevronDown, ChevronUp, RefreshCw, Bell, Calendar, LogOut, Eye,
 } from 'lucide-react'
 import type { Event, Invitee } from '@/lib/types'
 import { createClient } from '@/lib/supabase/client'
@@ -521,6 +521,18 @@ export default function AdminPage() {
                   style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 14px', border: `1px solid ${BORDER}`, borderRadius: 8, background: '#fff', color: '#475569', fontSize: 13, cursor: 'pointer', textDecoration: 'none' }}>
                   <UserPlus size={13} /> Guest List
                 </a>
+              )}
+
+              {/* private RSVP details link (answers, messages, dates) */}
+              {selectedId && (
+                <button onClick={async () => {
+                  const win = window.open('', '_blank')
+                  const res = await fetch(`/api/guest-details/link?event_id=${selectedId}`).then(r => r.json())
+                  if (win) { if (res.url) win.location.href = res.url; else win.close() }
+                }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 14px', border: `1px solid ${BORDER}`, borderRadius: 8, background: '#fff', color: '#475569', fontSize: 13, cursor: 'pointer' }}>
+                  <Eye size={13} /> RSVP Details
+                </button>
               )}
 
               <div style={{ flex: 1 }} />
