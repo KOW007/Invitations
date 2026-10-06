@@ -54,12 +54,12 @@ function GuestRows({ guests, showAnswers }: { guests: Guest[]; showAnswers?: boo
   )
 }
 
-function Section({ title, count, children, accent }: { title: string; count: number; children: React.ReactNode; accent: string }) {
+function Section({ title, count, children, accent }: { title: string; count?: number; children: React.ReactNode; accent: string }) {
   return (
     <div style={{ background: '#fff', border: `1px solid ${BORDER}`, borderRadius: 12, overflow: 'hidden', marginBottom: 16 }}>
       <div style={{ padding: '12px 20px', borderBottom: `1px solid ${BORDER}`, background: '#F8FBFF', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <span style={{ fontWeight: 700, fontSize: 14, color: '#1e293b' }}>{title}</span>
-        <span style={{ fontSize: 13, fontWeight: 600, color: accent, background: accent + '1a', padding: '2px 10px', borderRadius: 99 }}>{count}</span>
+        {count !== undefined && <span style={{ fontSize: 13, fontWeight: 600, color: accent, background: accent + '1a', padding: '2px 10px', borderRadius: 99 }}>{count}</span>}
       </div>
       <div style={{ padding: '4px 20px 12px' }}>
         {children}
@@ -93,7 +93,7 @@ export default function GuestDetailsPage() {
 
         {data && (
           <>
-            <Section title="Attending" count={data.attending.length} accent="#2E86C1">
+            <Section title="Attending" accent="#2E86C1">
               <GuestRows guests={data.attending} showAnswers />
             </Section>
             <Section title="Declined" count={data.declined.length} accent="#64748b">
