@@ -24,7 +24,15 @@ function GuestRows({ guests, showAnswers }: { guests: Guest[]; showAnswers?: boo
   return (
     <>
       {showAnswers && (
-        <div style={{ textAlign: 'right', padding: '8px 0 0', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.05em', color: '#64748b' }}>Adults/Kids</div>
+        <>
+          <div style={{ textAlign: 'right', padding: '8px 0 0', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.05em', color: '#64748b' }}>Adults/Kids</div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0 12px', borderBottom: `2px solid ${BORDER}`, fontSize: 15, fontWeight: 700, color: PRIMARY }}>
+            <span>Total</span>
+            <span>
+              {guests.reduce((n, g) => n + (Number(g.rsvp_answer_1) || 0), 0)}/{guests.reduce((n, g) => n + (Number(g.rsvp_answer_2) || 0), 0)}
+            </span>
+          </div>
+        </>
       )}
       <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
         {guests.map((g, i) => (
