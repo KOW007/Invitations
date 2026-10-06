@@ -19,22 +19,30 @@ function fmtDate(ts: string) {
   return new Date(ts).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })
 }
 
-function GuestRows({ guests, event }: { guests: Guest[]; event: Data['event'] }) {
+function GuestRows({ guests, showAnswers }: { guests: Guest[]; showAnswers?: boolean }) {
   if (!guests.length) return <p style={{ color: '#94a3b8', fontSize: 14, margin: '8px 0' }}>None yet.</p>
   return (
-    <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
-      {guests.map((g, i) => (
-        <li key={i} style={{ padding: '12px 0', borderBottom: i < guests.length - 1 ? `1px solid ${BORDER}` : 'none', fontSize: 14, color: '#475569' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
-            <span style={{ fontSize: 15, fontWeight: 600, color: '#1e293b' }}>{g.first_name} {g.last_name || ''}</span>
-            {g.responded_at && <span style={{ fontSize: 12, color: '#94a3b8', whiteSpace: 'nowrap' }}>{fmtDate(g.responded_at)}</span>}
-          </div>
-          {event.rsvp_question_1 && g.rsvp_answer_1 && <div style={{ marginTop: 4 }}><strong>{event.rsvp_question_1}</strong> {g.rsvp_answer_1}</div>}
-          {event.rsvp_question_2 && g.rsvp_answer_2 && <div style={{ marginTop: 2 }}><strong>{event.rsvp_question_2}</strong> {g.rsvp_answer_2}</div>}
-          {g.message && <div style={{ marginTop: 6, fontStyle: 'italic' }}>&ldquo;{g.message}&rdquo;</div>}
-        </li>
-      ))}
-    </ul>
+    <>
+      {showAnswers && (
+        <div style={{ textAlign: 'right', padding: '8px 0 0', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.05em', color: '#64748b' }}>Adults/Kids</div>
+      )}
+      <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
+        {guests.map((g, i) => (
+          <li key={i} style={{ padding: '12px 0', borderBottom: i < guests.length - 1 ? `1px solid ${BORDER}` : 'none', fontSize: 14, color: '#475569' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
+              <div>
+                <div style={{ fontSize: 15, fontWeight: 600, color: '#1e293b' }}>{g.first_name} {g.last_name || ''}</div>
+                {g.responded_at && <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 2 }}>{fmtDate(g.responded_at)}</div>}
+              </div>
+              {showAnswers && (
+                <span style={{ fontSize: 15, fontWeight: 600, color: '#1e293b', whiteSpace: 'nowrap' }}>{g.rsvp_answer_1 ?? '-'}/{g.rsvp_answer_2 ?? '-'}</span>
+              )}
+            </div>
+            {g.message && <div style={{ marginTop: 6, fontStyle: 'italic' }}>&ldquo;{g.message}&rdquo;</div>}
+          </li>
+        ))}
+      </ul>
+    </>
   )
 }
 
@@ -78,13 +86,13 @@ export default function GuestDetailsPage() {
         {data && (
           <>
             <Section title="Attending" count={data.attending.length} accent="#2E86C1">
-              <GuestRows guests={data.attending} event={data.event} />
+              <GuestRows guests={data.attending} showAnswers />
             </Section>
             <Section title="Declined" count={data.declined.length} accent="#64748b">
-              <GuestRows guests={data.declined} event={data.event} />
+              <GuestRows guests={data.declined} />
             </Section>
             <Section title="No response yet" count={data.pending.length} accent="#94a3b8">
-              <GuestRows guests={data.pending} event={data.event} />
+              <GuestRows guests={data.pending} />
             </Section>
           </>
         )}
