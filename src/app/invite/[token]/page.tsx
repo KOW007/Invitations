@@ -169,6 +169,7 @@ export default function InvitePage() {
                   )}
                   <div style={{ marginBottom: 16 }}>
                     <label style={{ display: 'block', fontSize: 12, textTransform: 'uppercase', letterSpacing: '.06em', color: '#64748b', marginBottom: 6 }}>Message (optional)</label>
+                    <p style={{ margin: '0 0 8px', fontSize: 13, color: '#475569' }}>Please include your date&apos;s name so we don&apos;t double count anyone riding on the bus.</p>
                     <textarea value={message} onChange={e => setMessage(e.target.value)} rows={3}
                       placeholder="Looking forward to it!"
                       style={{ width: '100%', border: '1px solid #C5DCF0', borderRadius: 8, padding: '10px 12px', fontSize: 14, fontFamily: 'inherit', resize: 'vertical', outline: 'none', color: '#334155' }} />
