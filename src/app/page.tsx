@@ -535,6 +535,18 @@ export default function AdminPage() {
                 </button>
               )}
 
+              {/* shared RSVP link — guests enter their email to reach their own invite */}
+              {selectedId && (
+                <button onClick={() => {
+                  navigator.clipboard.writeText(`${window.location.origin}/rsvp/${selectedId}`)
+                  setCopiedId('shared')
+                  setTimeout(() => setCopiedId(null), 2000)
+                }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 14px', border: `1px solid ${BORDER}`, borderRadius: 8, background: '#fff', color: copiedId === 'shared' ? '#16a34a' : '#475569', fontSize: 13, cursor: 'pointer' }}>
+                  {copiedId === 'shared' ? <Check size={13} /> : <Copy size={13} />} {copiedId === 'shared' ? 'Copied!' : 'Copy RSVP Link'}
+                </button>
+              )}
+
               <div style={{ flex: 1 }} />
 
               {/* send invitations */}
