@@ -3,6 +3,9 @@ import { createSupabaseServerClient, createServiceClient } from '@/lib/supabase/
 import { sendReminder } from '@/lib/email'
 import type { Event, Invitee } from '@/lib/types'
 
+// Allow time for the spaced-out sends (Vercel max on the Hobby plan)
+export const maxDuration = 300
+
 export async function POST(req: NextRequest) {
   const authClient = await createSupabaseServerClient()
   const { data: { user } } = await authClient.auth.getUser()
@@ -31,7 +34,7 @@ export async function POST(req: NextRequest) {
       await sendReminder(event as Event, invitee)
       await db.from('invitees').update({ reminder1_sent_at: new Date().toISOString() }).eq('id', invitee.id)
       results.sent++
-      await new Promise(r => setTimeout(r, 150))
+      await new Promise(r => setTimeout(r, 3000)) // space out sends so they look less like bulk mail
     } catch (err) {
       const reason = err instanceof Error ? err.message : 'unknown error'
       results.failed.push(`${invitee.first_name} ${invitee.last_name || ''}`.trim() + ` (${reason})`)
