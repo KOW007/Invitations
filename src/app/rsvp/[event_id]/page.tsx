@@ -67,10 +67,10 @@ export default function SharedRsvpPage() {
             ) : (
               <>
                 <p style={{ margin: '0 0 12px', fontSize: 14, color: '#475569' }}>
-                  We couldn&apos;t find that email on the guest list. Search by the student&apos;s name instead.
+                  We couldn&apos;t find that email on the guest list. Search by the student&apos;s first name instead.
                 </p>
-                <label style={{ display: 'block', fontSize: 12, textTransform: 'uppercase', letterSpacing: '.06em', color: '#64748b', marginBottom: 6 }}>Student&apos;s name</label>
-                <input value={name} onChange={e => setName(e.target.value)} required placeholder="First and/or last name"
+                <label style={{ display: 'block', fontSize: 12, textTransform: 'uppercase', letterSpacing: '.06em', color: '#64748b', marginBottom: 6 }}>Student&apos;s first name</label>
+                <input value={name} onChange={e => setName(e.target.value)} required placeholder="First name"
                   style={{ width: '100%', border: '1px solid #C5DCF0', borderRadius: 8, padding: '10px 12px', fontSize: 14, fontFamily: 'inherit', outline: 'none', color: '#334155', marginBottom: 12 }} />
               </>
             )}

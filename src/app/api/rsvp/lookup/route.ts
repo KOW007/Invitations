@@ -21,17 +21,14 @@ export async function POST(req: NextRequest) {
   if (!event_id) return NextResponse.json({ error: 'event_id required' }, { status: 400 })
   const supabase = createServiceClient()
 
-  // Name search: every word typed must appear in the first or last name
+  // Name search by first name
   if (typeof name === 'string' && name.trim()) {
-    const words = name.trim().toLowerCase().split(/\s+/)
+    const term = name.trim().toLowerCase()
     const { data: guests } = await supabase.from('invitees')
       .select('first_name, last_name, token')
       .eq('event_id', event_id)
       .order('first_name', { ascending: true })
-    const matches = (guests ?? []).filter(g => {
-      const full = `${g.first_name} ${g.last_name || ''}`.toLowerCase()
-      return words.every(w => full.includes(w))
-    })
+    const matches = (guests ?? []).filter(g => g.first_name.toLowerCase().includes(term))
     return NextResponse.json({ matches })
   }
 
