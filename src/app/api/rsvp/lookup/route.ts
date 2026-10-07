@@ -15,13 +15,29 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({ event })
 }
 
-// Public: find the invitee(s) for an email so the shared link can forward to their personal RSVP page
+// Public: find the invitee(s) by email or name so the shared link can forward to their personal RSVP page
 export async function POST(req: NextRequest) {
-  const { event_id, email } = await req.json()
-  const clean = typeof email === 'string' ? email.trim() : ''
-  if (!event_id || !clean) return NextResponse.json({ error: 'event_id and email required' }, { status: 400 })
-
+  const { event_id, email, name } = await req.json()
+  if (!event_id) return NextResponse.json({ error: 'event_id required' }, { status: 400 })
   const supabase = createServiceClient()
+
+  // Name search: every word typed must appear in the first or last name
+  if (typeof name === 'string' && name.trim()) {
+    const words = name.trim().toLowerCase().split(/\s+/)
+    const { data: guests } = await supabase.from('invitees')
+      .select('first_name, last_name, token')
+      .eq('event_id', event_id)
+      .order('first_name', { ascending: true })
+    const matches = (guests ?? []).filter(g => {
+      const full = `${g.first_name} ${g.last_name || ''}`.toLowerCase()
+      return words.every(w => full.includes(w))
+    })
+    return NextResponse.json({ matches })
+  }
+
+  const clean = typeof email === 'string' ? email.trim() : ''
+  if (!clean) return NextResponse.json({ error: 'email or name required' }, { status: 400 })
+
   const { data: matches } = await supabase.from('invitees')
     .select('first_name, last_name, token')
     .eq('event_id', event_id)
